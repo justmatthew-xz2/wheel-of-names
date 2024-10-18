@@ -36,13 +36,13 @@ document.addEventListener('keydown', function (event) {
     return;
   }
 
-  if (event.code === 'Space') {
+  if (event.code === '`') {
     event.preventDefault(); // Prevent default spacebar scrolling
     if (!isRigging) {
       // Start rigging mode
       isRigging = true;
       riggedInput = '';
-      console.log('Enter the rigged winner\'s name and press space to confirm.');
+      console.log('Enter the rigged winner\'s name and press ` to confirm.');
     } else {
       // Confirm rigged winner
       isRigging = false;
