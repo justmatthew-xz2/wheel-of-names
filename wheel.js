@@ -125,7 +125,7 @@ function getColor(item, maxitem) {
 function drawWheel() {
   // Adjusted to use dynamic canvas size
   var outsideRadius = canvas.width / 2 - 20;
-  var textRadius = outsideRadius - 30;
+  var textRadius = outsideRadius - (outsideRadius / 2); // Adjusted for middle positioning between center and arc
   var insideRadius = 0;
 
   ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,9 +145,6 @@ function drawWheel() {
     var angle = startAngle + i * arc;
     var color = getColor(i, numSegments);
 
-    // Log the generated color
-    console.log('Generated color for segment', i, ':', color);
-
     ctx.fillStyle = color;
 
     ctx.beginPath();
@@ -161,14 +158,17 @@ function drawWheel() {
 
     ctx.save();
     ctx.fillStyle = textColor;
-    ctx.translate(
-      canvas.width / 2 + Math.cos(angle + arc / 2) * textRadius,
-      canvas.height / 2 + Math.sin(angle + arc / 2) * textRadius
-    );
-    ctx.rotate(angle + arc / 2 + Math.PI / 2);
-    var text = names[i];
+
+    // Translate and rotate the canvas for proper text alignment
+    ctx.translate(canvas.width / 2, canvas.height / 2);
+    ctx.rotate(angle + arc / 2);
+
+    // Draw text exactly between the diameter and arc
     ctx.font = 'bold ' + Math.max(12, outsideRadius / 15) + 'px Arial';
-    ctx.fillText(text, -ctx.measureText(text).width / 2, 0);
+    ctx.textAlign = 'center'; // Center the text horizontally
+    ctx.fillText(names[i], textRadius, 0); // Center the text vertically
+
+    // Restore the original state
     ctx.restore();
   }
 
@@ -181,6 +181,7 @@ function drawWheel() {
   ctx.closePath();
   ctx.fill();
 }
+
 
 
 // Function to convert HSL to RGB
