@@ -153,10 +153,17 @@ function getColor(item, maxitem) {
 }
 
 // Function to determine the contrasting text color
+// Function to determine the contrasting text color
 function getContrastingTextColor(backgroundColor) {
   // Extract HSL values from the background color string
   var hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
   var result = hslRegex.exec(backgroundColor);
+
+  // Check if result is null
+  if (!result) {
+    console.error("Background color is not in HSL format:", backgroundColor);
+    return 'black'; // Default color if parsing fails
+  }
 
   var h = parseInt(result[1]);
   var s = parseInt(result[2]);
