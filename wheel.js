@@ -89,6 +89,38 @@ function updateWheel() {
   localStorage.setItem('wheelNames', JSON.stringify(names));
 }
 
+// Function to determine the contrasting text color
+function getContrastingTextColor(backgroundColor) {
+  // Extract HSL values from the background color string
+  var hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
+  var result = hslRegex.exec(backgroundColor);
+
+  // Check if result is null
+  if (!result) {
+    console.error("Background color is not in HSL format:", backgroundColor);
+    return 'black'; // Default color if parsing fails
+  }
+
+  var h = parseInt(result[1]);
+  var s = parseInt(result[2]);
+  var l = parseInt(result[3]);
+
+  // Convert HSL to RGB
+  var rgb = hslToRgb(h / 360, s / 100, l / 100);
+
+  // Calculate luminance
+  var luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b);
+
+  // Return black for light backgrounds and white for dark backgrounds
+  return luminance > 0.6 ? 'black' : 'white';
+}
+
+// Function to generate colors for the wheel segments
+function getColor(item, maxitem) {
+  var hue = item * (360 / maxitem);
+  return 'hsl(' + hue + ', 100%, 50%)'; // Ensure this is returned in HSL format
+}
+
 // Function to draw the wheel
 function drawWheel() {
   // Adjusted to use dynamic canvas size
@@ -112,6 +144,10 @@ function drawWheel() {
   for (var i = 0; i < numSegments; i++) {
     var angle = startAngle + i * arc;
     var color = getColor(i, numSegments);
+
+    // Log the generated color
+    console.log('Generated color for segment', i, ':', color);
+
     ctx.fillStyle = color;
 
     ctx.beginPath();
@@ -146,38 +182,6 @@ function drawWheel() {
   ctx.fill();
 }
 
-// Function to generate colors for the wheel segments
-function getColor(item, maxitem) {
-  var hue = item * (360 / maxitem);
-  return 'hsl(' + hue + ', 100%, 50%)';
-}
-
-// Function to determine the contrasting text color
-// Function to determine the contrasting text color
-function getContrastingTextColor(backgroundColor) {
-  // Extract HSL values from the background color string
-  var hslRegex = /hsl\((\d+),\s*(\d+)%,\s*(\d+)%\)/;
-  var result = hslRegex.exec(backgroundColor);
-
-  // Check if result is null
-  if (!result) {
-    console.error("Background color is not in HSL format:", backgroundColor);
-    return 'black'; // Default color if parsing fails
-  }
-
-  var h = parseInt(result[1]);
-  var s = parseInt(result[2]);
-  var l = parseInt(result[3]);
-
-  // Convert HSL to RGB
-  var rgb = hslToRgb(h / 360, s / 100, l / 100);
-
-  // Calculate luminance
-  var luminance = (0.2126 * rgb.r + 0.7152 * rgb.g + 0.0722 * rgb.b);
-
-  // Return black for light backgrounds and white for dark backgrounds
-  return luminance > 0.6 ? 'black' : 'white';
-}
 
 // Function to convert HSL to RGB
 function hslToRgb(h, s, l) {
