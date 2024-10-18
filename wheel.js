@@ -37,6 +37,11 @@ document.addEventListener('keydown', function (event) {
   }
 
   if (event.code === 'ControlLeft') {
+    // Left Ctrl: ControlLeft
+    // Right Ctrl: ControlRight
+    // Left Alt: AltLeft
+    // Right Alt: AltRight
+    // '1': Digit1
     event.preventDefault(); // Prevent default spacebar scrolling
     if (!isRigging) {
       // Start rigging mode
