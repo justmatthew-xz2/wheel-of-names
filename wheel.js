@@ -42,7 +42,7 @@ document.addEventListener('keydown', function (event) {
       // Start rigging mode
       isRigging = true;
       riggedInput = '';
-      console.log('Enter the rigged winner\'s name and press ` to confirm.');
+      console.log('Enter the rigged winner\'s name and press LeftCtrl to confirm.');
     } else {
       // Confirm rigged winner
       isRigging = false;
