@@ -36,7 +36,7 @@ document.addEventListener('keydown', function (event) {
     return;
   }
 
-  if (event.code === 'Backquote') {
+  if (event.code === 'ControlLeft') {
     event.preventDefault(); // Prevent default spacebar scrolling
     if (!isRigging) {
       // Start rigging mode
