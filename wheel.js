@@ -219,8 +219,9 @@ function spin() {
   if (riggedWinner) {
     var winnerIndex = names.indexOf(riggedWinner);
     if (winnerIndex === -1) {
-      alert('Winner "' + riggedWinner + '" not found in the names list.');
+      alert('An unexpected error has occurred.');
       riggedWinner = ''; // Clear the rigged winner
+      return;
     } else {
       var desiredAngle = (names.length - winnerIndex) * arc - (arc / 2);
       desiredAngle = desiredAngle % (2 * Math.PI);
