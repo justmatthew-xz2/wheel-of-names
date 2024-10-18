@@ -21,6 +21,11 @@ var isRigging = false;
 var riggedWinner = '';
 var riggedInput = '';
 
+// Preload sounds
+var spinSound = new Audio('spin.mp3'); // Replace with your actual spin sound file
+var stopSound = new Audio('stop.mp3'); // Replace with your actual stop sound file
+
+
 document.getElementById('updateWheelBtn').addEventListener('click', updateWheel);
 document.getElementById('spinBtn').addEventListener('click', spin);
 
@@ -198,6 +203,7 @@ function hslToRgb(h, s, l) {
 }
 
 // Function to start spinning the wheel
+// Function to start spinning the wheel
 function spin() {
   if (names.length === 0) {
     alert("No names available to spin!");
@@ -233,6 +239,10 @@ function spin() {
   document.getElementById('spinBtn').disabled = true;
   document.getElementById('result').classList.remove('show');
 
+  // Play spinning sound
+  spinSound.loop = true; // Loop the spinning sound
+  spinSound.play();
+
   rotateWheel();
 }
 
@@ -261,7 +271,6 @@ function rotateWheel() {
 }
 
 // Function to stop the wheel and display the selected name
-// Function to stop the wheel and display the selected name
 function stopRotateWheel() {
   clearTimeout(spinTimeout);
 
@@ -272,6 +281,11 @@ function stopRotateWheel() {
   var text = names[index];
   var resultText = "Congratulations! The winner is " + text + "!";
   var removalNotice = "The name has been automatically removed."; // New message
+
+  // Stop spinning sound and play stop sound
+  spinSound.pause();  // Stop spinning sound
+  spinSound.currentTime = 0; // Reset to the beginning for next spin
+  stopSound.play();  // Play stop sound
 
   // Display winner and removal notice
   document.getElementById('result').innerHTML = resultText + "<br><small>" + removalNotice + "</small>";
